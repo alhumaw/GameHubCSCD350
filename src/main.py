@@ -1,10 +1,13 @@
 import pygame, sys
 from Button import Button
+from pong import play as pong_play
+
 
 pygame.init()
 #This is the screen width and height of window
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
+
 window = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 #The caption for the window
 pygame.display.set_caption("Menu")
@@ -27,6 +30,8 @@ def play():
         PLAY_RECT = PLAY_TEXT.get_rect(center=(640,260))
         #render text to screen
         window.blit(PLAY_TEXT,PLAY_RECT)
+        PONG_GAME = Button(image=None, pos=(640,360),
+                            text_input="PONG", font = get_font(75), base_color="White", hovering_color = "Green")
         #clicking this will return back to the main menu
         PLAY_BACK = Button(image=None, pos=(640,460),
                             text_input="BACK", font=get_font(75), base_color="White", hovering_color = "Green")
@@ -34,6 +39,8 @@ def play():
         #change the color when the mouse is hovering
         PLAY_BACK.changeColor(PLAY_MOUSE_POS)
         PLAY_BACK.update(window)
+        PONG_GAME.changeColor(PLAY_MOUSE_POS)
+        PONG_GAME.update(window)
 
         for event in pygame.event.get():
             #if you press the "X" button, the game will exit
@@ -44,6 +51,8 @@ def play():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
                     main_menu()
+                if PONG_GAME.checkForInput(PLAY_MOUSE_POS):
+                    pong_play()
         #constantly update the screen. this is the critical piece of creating a game loo[]
         pygame.display.update()
 
@@ -78,6 +87,7 @@ def options():
 
 #Main menu implementation
 def main_menu():
+    menu_x = -400
     pygame.display.set_caption("Menu")
 
     while True:
@@ -87,17 +97,19 @@ def main_menu():
         #record mouse position on each update
         mouse_pos = pygame.mouse.get_pos()
         #render text
-        MENU_TEXT = get_font(100).render("MAIN MENU", True, "#b68f40")
-        MENU_RECT = MENU_TEXT.get_rect(center=(640,100))
+        if menu_x < 3000:
+            menu_x += 2
+        MENU_TEXT = get_font(100).render("ARCADE ADVENTURE", True, "#fbfbfb")
+        MENU_RECT = MENU_TEXT.get_rect(center=(menu_x + 640,100))
         #buttons, add this background, at the position, with this text, this font size, with this color, and when I hover use this color
         PLAY_BUTTON = Button(image=pygame.image.load("res/Play Rect.png"), pos = (640,250),
-                                text_input = "PLAY", font = get_font(75), base_color = "#d7fcd4", hovering_color="White")
+                                text_input = "PLAY", font = get_font(100), base_color = "#48ea02", hovering_color="White")
 
-        OPTIONS_BUTTON = Button(image=pygame.image.load("res/Options Rect.png"), pos = (640,400),
-                                text_input = "OPTIONS", font = get_font(75), base_color = "#d7fcd4", hovering_color="White") 
+        OPTIONS_BUTTON = Button(image=pygame.image.load("res/Play Rect.png"), pos = (640,400),
+                                text_input = "OPTIONS", font = get_font(100), base_color = "#48ea02", hovering_color="White") 
 
-        QUIT_BUTTON = Button(image=pygame.image.load("res/Quit Rect.png"), pos = (640,550),
-                                text_input = "QUIT", font = get_font(75), base_color = "#d7fcd4", hovering_color="White") 
+        QUIT_BUTTON = Button(image=pygame.image.load("res/Play Rect.png"), pos = (640,550),
+                                text_input = "QUIT", font = get_font(100), base_color = "#48ea02", hovering_color="White") 
         
         #draw our main menu text 
         window.blit(MENU_TEXT,MENU_RECT)
