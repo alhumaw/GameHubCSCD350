@@ -1,6 +1,7 @@
 import pygame, sys
 from Button import Button
-from pong import play as pong_play
+from pong import start_pong
+
 
 pygame.init()
 # This is the screen width and height of window
@@ -53,8 +54,8 @@ def play():
                 if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
                     main_menu()
                 if PONG_GAME.checkForInput(PLAY_MOUSE_POS):
-                    pong_play()
-        # constantly update the screen. this is the critical piece of creating a game loo[]
+                    start_pong(window)
+        # constantly update the screen. this is the critical piece of creating a game loop
         pygame.display.update()
 
 
