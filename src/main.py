@@ -1,6 +1,6 @@
 import pygame, sys
 from Button import Button
-
+from game import play
 pygame.init()
 # This is the screen width and height of window
 SCREEN_WIDTH = 1280
@@ -18,7 +18,9 @@ BG = pygame.image.load("res/BG.png")
 def get_font(size):
     return pygame.font.Font("res/fonts/chary___.ttf", size)
 
-# options menu TBD
+
+
+
 def options():
     while True:
         # constantly record the mouse position
@@ -92,7 +94,7 @@ def main_menu():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if PLAY_BUTTON.checkForInput(mouse_pos):
-                    play()
+                    play(window)
                 if OPTIONS_BUTTON.checkForInput(mouse_pos):
                     options()
                 if QUIT_BUTTON.checkForInput(mouse_pos):
