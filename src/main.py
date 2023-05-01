@@ -1,6 +1,6 @@
 import pygame, sys
 from Button import Button
-from game import play
+from game import play as play_game
 pygame.init()
 # This is the screen width and height of window
 SCREEN_WIDTH = 1280
@@ -17,38 +17,6 @@ BG = pygame.image.load("res/BG.png")
 # modular ability to change the size of the font
 def get_font(size):
     return pygame.font.Font("res/fonts/chary___.ttf", size)
-
-
-
-
-def options():
-    while True:
-        # constantly record the mouse position
-        OPTIONS_MOUSE_POS = pygame.mouse.get_pos()
-        # white overlay
-        window.fill("white")
-        # text rendering
-        OPTIONS_TEXT = get_font(45).render("This is the OPTIONS screen.", True, "Black")
-        OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(640, 260))
-        window.blit(OPTIONS_TEXT, OPTIONS_RECT)
-
-        # back button
-        OPTIONS_BACK = Button(image=None, pos=(640, 460),
-                              text_input="BACK", font=get_font(75), base_color="Black", hovering_color="Green")
-        # changing colors on hover
-        OPTIONS_BACK.changeColor(OPTIONS_MOUSE_POS)
-        OPTIONS_BACK.update(window)
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if OPTIONS_BACK.checkForInput(OPTIONS_MOUSE_POS):
-                    main_menu()
-
-        pygame.display.update()
-
 
 # Main menu implementation
 def main_menu():
@@ -94,9 +62,7 @@ def main_menu():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if PLAY_BUTTON.checkForInput(mouse_pos):
-                    play(window)
-                if OPTIONS_BUTTON.checkForInput(mouse_pos):
-                    options()
+                    play_game(window)
                 if QUIT_BUTTON.checkForInput(mouse_pos):
                     pygame.quit()
                     sys.exit()
