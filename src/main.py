@@ -18,7 +18,101 @@ BG = pygame.image.load("res/BG.png")
 def get_font(size):
     return pygame.font.Font("res/fonts/chary___.ttf", size)
 
-# Main menu implementation
+
+
+#when play button is clicked
+def play():
+    while True:
+        #constantly obtain position of the mouse cursor
+        PLAY_MOUSE_POS = pygame.mouse.get_pos()
+        #overwrite the screen with a black overlay
+        window.fill("black")
+        PLAY_TEXT = get_font(45).render("Pick A Game To Play", True, "Gold")
+        PLAY_RECT = PLAY_TEXT.get_rect(center=(640,50))
+        #render text to screen
+        window.blit(PLAY_TEXT,PLAY_RECT)
+        #clicking this will return back to the main menu
+        Game1B = Button(image=None, pos=(250,350),
+                            text_input="Pong", font=get_font(50), base_color="White", hovering_color = "Green")
+    
+        Game2B = Button(image=None, pos=(620,350),
+                            text_input="Tic-Tac-Toe", font=get_font(50), base_color="White", hovering_color = "Green")
+        
+        Game3B = Button(image=None, pos=(990,350),
+                            text_input="DOOM", font=get_font(50), base_color="White", hovering_color = "Green")
+
+        Game4B = Button(image=None, pos=(250,650),
+                            text_input="Snake", font=get_font(50), base_color="White", hovering_color = "Green")
+    
+        Game5B = Button(image=None, pos=(620,650),
+                            text_input="Tower Defence", font=get_font(50), base_color="White", hovering_color = "Green")
+
+        Game6B = Button(image=None, pos=(990,650),
+                            text_input="Space Inv", font=get_font(50), base_color="White", hovering_color = "Green")
+
+        #change the color when the mouse is hovering
+        Game1B.changeColor(PLAY_MOUSE_POS)
+        Game1B.update(window)
+
+        Game2B.changeColor(PLAY_MOUSE_POS)
+        Game2B.update(window)
+
+        Game3B.changeColor(PLAY_MOUSE_POS)
+        Game3B.update(window)
+
+        Game4B.changeColor(PLAY_MOUSE_POS)
+        Game4B.update(window)
+
+        Game5B.changeColor(PLAY_MOUSE_POS)
+        Game5B.update(window)
+
+        Game6B.changeColor(PLAY_MOUSE_POS)
+        Game6B.update(window)
+        for event in pygame.event.get():
+            #if you press the "X" button, the game will exit
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            #if the mouse clicks the back button, return to main menu
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if Game1B.checkForInput(PLAY_MOUSE_POS):
+                    main_menu()
+        #constantly update the screen. this is the critical piece of creating a game loo[]
+        pygame.display.update()
+
+
+# options menu TBD
+def options():
+    while True:
+        # constantly record the mouse position
+        OPTIONS_MOUSE_POS = pygame.mouse.get_pos()
+        # white overlay
+        window.fill("white")
+        # text rendering
+        OPTIONS_TEXT = get_font(45).render("This is the OPTIONS screen.", True, "Black")
+        OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(640, 260))
+        window.blit(OPTIONS_TEXT, OPTIONS_RECT)
+
+        # back button
+        OPTIONS_BACK = Button(image=None, pos=(640, 460),
+                              text_input="BACK", font=get_font(75), base_color="Black", hovering_color="Green")
+        # changing colors on hover
+        OPTIONS_BACK.changeColor(OPTIONS_MOUSE_POS)
+        OPTIONS_BACK.update(window)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if OPTIONS_BACK.checkForInput(OPTIONS_MOUSE_POS):
+                    main_menu()
+
+        pygame.display.update()
+
+
+
+
 def main_menu():
     menu_x = -400
     pygame.display.set_caption("Menu")
