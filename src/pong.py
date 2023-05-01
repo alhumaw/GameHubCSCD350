@@ -1,25 +1,27 @@
 import pygame
-from pygame import font
 import random
+from options import options
 
 
 def start_pong(window):
     width = 1280
     height = 720
-
+    pause = False
+    saved_x_velocity = 0
+    saved_y_velocity = 0
     pygame.font.get_default_font()
     ffUp = pygame.image.load("res/fastForward.png")
     crash_sound = pygame.mixer.Sound("res/blip.mp3")
     power = pygame.mixer.Sound("res/powerup.mp3")
     rect1X = 15
     rect1Y = 240
-    rect2X = 1260
+    rect2X = 1240
     rect2Y = 240
 
-    rect1W = 15
-    rect1H = 150
-    rect2W = 15
-    rect2H = 150
+    rect1W = 25
+    rect1H = 225
+    rect2W = 25
+    rect2H = 225
 
     powerX = random.randint(100, 400)
     powerY = random.randint(100, 200)
@@ -35,9 +37,9 @@ def start_pong(window):
 
     circleX = width / 2
     circleY = height / 2
-    circleR = 20
-    xVelocity = 4
-    yVelocity = 4
+    circleR = 40
+    xVelocity = 6
+    yVelocity = 6
     p1Score = 0
     p2Score = 0
     maxScore = 3
@@ -48,7 +50,20 @@ def start_pong(window):
 
     while True:
         for event in pygame.event.get():
+
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    print("Escape pressed")
+                    pause = not pause
+                    if pause:
+                        saved_x_velocity = xVelocity
+                        saved_y_velocity = yVelocity
+                        xVelocity = 0
+                        yVelocity = 0
+                        state = options(window, pause)
+                        if not state:
+                            xVelocity = saved_x_velocity
+                            yVelocity = saved_y_velocity
                 if event.key == pygame.K_w:
                     p1Up = True
                 if event.key == pygame.K_s:
@@ -89,11 +104,11 @@ def start_pong(window):
         if p2Down:
             rect2Y += 5
 
-        game_score = pygame.font.Font('res/fonts/chary___.ttf', 30)
-        winner = pygame.font.Font('res/fonts/chary___.ttf', 30)
+        game_score = pygame.font.Font('res/fonts/chary___.ttf', 72)
+        winner = pygame.font.Font('res/fonts/chary___.ttf', 72)
         text = game_score.render(f"PLAYER 1: {p1Score} | PLAYER 2: {p2Score}", True, (255, 255, 255))
         window.fill((red, green, blue))
-        window.blit(text, (135, 0))
+        window.blit(text, (width / 2 - 400, 0))
         c1 = pygame.draw.circle(window, color, (circleX, circleY), circleR)
         r1 = pygame.draw.rect(window, color, (rect1X, rect1Y, rect1W, rect1H))
         r2 = pygame.draw.rect(window, color, (rect2X, rect2Y, rect2W, rect2H))
@@ -175,6 +190,7 @@ def start_pong(window):
             blue = random.randint(0, 255)
         else:
             color = (255, 255, 255)
+
         pygame.display.flip()
 
         clock.tick(60)
