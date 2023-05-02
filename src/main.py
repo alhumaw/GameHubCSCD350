@@ -1,4 +1,6 @@
 import pygame, sys
+from pygame import mixer
+
 from Button import Button
 from game import play as play_game
 pygame.init()
@@ -114,6 +116,10 @@ def options():
 
 
 def main_menu():
+    mixer.init()
+    mixer.music.load("res/menu_music.mp3")
+    mixer.music.set_volume(0.7)
+    mixer.music.play()
     menu_x = -400
     pygame.display.set_caption("Menu")
 
@@ -157,12 +163,17 @@ def main_menu():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if PLAY_BUTTON.checkForInput(mouse_pos):
                     play_game(window)
+                if OPTIONS_BUTTON.checkForInput(mouse_pos):
+                    options()
                 if QUIT_BUTTON.checkForInput(mouse_pos):
                     pygame.quit()
                     sys.exit()
 
         pygame.display.update()
 
+def start_options():
+    from options import options
+    options(window, True)
 
 # main menu call
 main_menu()

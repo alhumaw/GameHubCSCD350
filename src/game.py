@@ -3,6 +3,7 @@ import pygame, sys
 from Button import Button
 
 
+pygame.mixer.init()
 # modular ability to change the size of the font
 def get_font(size):
     return pygame.font.Font("res/fonts/chary___.ttf", size)
@@ -63,6 +64,7 @@ def play(window):
             # if the mouse clicks the back button, return to main menu
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if Game1B.checkForInput(PLAY_MOUSE_POS):
+                    pygame.mixer.quit()
                     start_pong(window)
         # constantly update the screen. this is the critical piece of creating a game loo[]
         pygame.display.update()
