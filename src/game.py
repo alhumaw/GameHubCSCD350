@@ -7,7 +7,6 @@ from Button import Button
 def get_font(size):
     return pygame.font.Font("res/fonts/chary___.ttf", size)
 
-# when play button is clicked
 def play(window):
     while True:
         # constantly obtain position of the mouse cursor
@@ -55,6 +54,32 @@ def play(window):
 
         Game6B.changeColor(PLAY_MOUSE_POS)
         Game6B.update(window)
+
+        image1 = pygame.image.load("res/pongimg.jpg")
+        test1 = pygame.image.load("res/test3.gif")
+        TicTac = pygame.image.load("res/TicTacImg.jpg")
+        Doom = pygame.image.load("res/DoomImg.jpg")
+
+        #images above buttons
+        #window.blit(image1, (50,50))
+        window.blit(TicTac, (535, 100))
+        window.blit(Doom, (800, 200))
+
+        #attempt at gif
+
+        image_surface = pygame.Surface((image1.get_width(), image1.get_height()))
+        image_surface.blit(image1, (0, 0))
+
+        image_x = 155
+        image_y = 140
+
+        gif_x = image_x
+        gif_y = image_y
+
+
+        window.blit(image_surface, (image_x, image_y))
+
+
         for event in pygame.event.get():
             # if you press the "X" button, the game will exit
             if event.type == pygame.QUIT:
@@ -64,5 +89,11 @@ def play(window):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if Game1B.checkForInput(PLAY_MOUSE_POS):
                     start_pong(window)
+
+            if event.type == pygame.MOUSEMOTION:
+                mouse_x, mouse_y = event.pos
+                if image_x <= mouse_x <= image_x + image1.get_width() and image_y <= mouse_y <= image_y + image1.get_height():
+                    window.blit(test1, (gif_x, gif_y))
+
         # constantly update the screen. this is the critical piece of creating a game loo[]
         pygame.display.update()

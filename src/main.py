@@ -32,18 +32,20 @@ def play():
         #render text to screen
         window.blit(PLAY_TEXT,PLAY_RECT)
         #clicking this will return back to the main menu
+
+
         Game1B = Button(image=None, pos=(250,350),
                             text_input="Pong", font=get_font(50), base_color="White", hovering_color = "Green")
-    
+
         Game2B = Button(image=None, pos=(620,350),
                             text_input="Tic-Tac-Toe", font=get_font(50), base_color="White", hovering_color = "Green")
-        
+
         Game3B = Button(image=None, pos=(990,350),
                             text_input="DOOM", font=get_font(50), base_color="White", hovering_color = "Green")
 
         Game4B = Button(image=None, pos=(250,650),
                             text_input="Snake", font=get_font(50), base_color="White", hovering_color = "Green")
-    
+
         Game5B = Button(image=None, pos=(620,650),
                             text_input="Tower Defence", font=get_font(50), base_color="White", hovering_color = "Green")
 
@@ -68,6 +70,11 @@ def play():
 
         Game6B.changeColor(PLAY_MOUSE_POS)
         Game6B.update(window)
+
+        #game menu Images
+
+
+
         for event in pygame.event.get():
             #if you press the "X" button, the game will exit
             if event.type == pygame.QUIT:
