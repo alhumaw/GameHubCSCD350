@@ -20,6 +20,7 @@ def start_pong(window):
     ffUp = pygame.transform.scale(ffUp, (new_width, new_height))
     crash_sound = pygame.mixer.Sound("res/blip.mp3")
     power = pygame.mixer.Sound("res/powerup.mp3")
+    power.set_volume(.3)
     rect1X = 15
     rect1Y = 240
     rect2X = 1240
@@ -113,8 +114,8 @@ def start_pong(window):
         c1 = pygame.draw.circle(window, color, (circleX, circleY), circleR)
         r1 = pygame.draw.rect(window, color, (rect1X, rect1Y, rect1W, rect1H))
         r2 = pygame.draw.rect(window, color, (rect2X, rect2Y, rect2W, rect2H))
-        collide1 = r1.collidepoint(circleX - circleR / 2, circleY - circleR / 2)
-        collide2 = r2.collidepoint(circleX + circleR / 2, circleY + circleR / 2)
+        collide1 = r1.colliderect(circleX - circleR, circleY - circleR, circleR * 2, circleR * 2)
+        collide2 = r2.colliderect(circleX - circleR, circleY - circleR, circleR * 2, circleR * 2)
         window.blit(ffUp, (powerX, powerY))
 
         power_rect = pygame.Rect(powerX, powerY, new_width, new_height)
@@ -179,6 +180,7 @@ def start_pong(window):
         if collide1:
             crash_sound.play()
             xVelocity = -xVelocity
+            circleX = rect1X + rect1W + circleR
             red = random.randint(0, 255)
             green = random.randint(0, 255)
             blue = random.randint(0, 255)
@@ -189,6 +191,7 @@ def start_pong(window):
         if collide2:
             crash_sound.play()
             xVelocity = -xVelocity
+            circleX = rect2X - circleR
             red = random.randint(0, 255)
             green = random.randint(0, 255)
             blue = random.randint(0, 255)
