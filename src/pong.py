@@ -6,7 +6,6 @@ from pygame import mixer
 from options import options
 
 
-
 def start_pong(window):
     mixer.init()
     width = 1280
@@ -38,7 +37,6 @@ def start_pong(window):
 
     p1Up = False
     p1Down = False
-
 
     clock = pygame.time.Clock()
 
@@ -105,7 +103,6 @@ def start_pong(window):
         if rect2Y >= height - rect2H:
             rect2Y = height - rect2H
 
-
         game_score = pygame.font.Font('res/fonts/chary___.ttf', 72)
         winner = pygame.font.Font('res/fonts/chary___.ttf', 72)
         text = game_score.render(f"PLAYER 1: {p1Score} | PLAYER 2: {p2Score}", True, (255, 255, 255))
@@ -119,7 +116,6 @@ def start_pong(window):
         window.blit(ffUp, (powerX, powerY))
 
         power_rect = pygame.Rect(powerX, powerY, new_width, new_height)
-
 
         if power_rect.collidepoint(circleX + circleR / 2, circleY + circleR / 2):
             power.play()
@@ -142,7 +138,6 @@ def start_pong(window):
             yVelocity = -yVelocity
             xVelocity = -xVelocity
             p2Score += 1
-
 
         if circleX >= 1280:
             circleX = width / 2
