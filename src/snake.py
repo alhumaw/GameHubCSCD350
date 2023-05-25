@@ -96,7 +96,7 @@ class Snake:
 
     def __init__(self, block_size, play_area, retx, rety):
         self.block_size = block_size
-        self.bounds = play_area.get_size()
+        self.bounds = play_area
         self.respawn(retx, rety)
 
     def respawn(self, start_x, start_y):
@@ -159,7 +159,7 @@ class Snake:
         head = self.body[-1]
         if head[0] >= self.bounds[0] - self.block_size:
             return True
-        if head[1] >= self.bounds[1] - self.block_size:
+        if head[1] >= self.rety + self.bounds[1] - self.block_size:
             return True
         if head[0] < self.retx:
             return True
@@ -187,7 +187,7 @@ class Food:
         game.draw.rect(play_area, self.color, (self.x, self.y, self.block_size, self.block_size))
 
     def respawn(self):
-        blocks_in_x = (self.bounds[0] - self.retx) // self.block_size
-        blocks_in_y = (self.bounds[1] - self.rety) // self.block_size
+        blocks_in_x = (self.bounds[0] - self.retx - self.block_size) // self.block_size
+        blocks_in_y = (self.bounds[1] - self.rety - self.block_size) // self.block_size
         self.x = random.randint(0, blocks_in_x - 1) * self.block_size + self.retx
         self.y = random.randint(0, blocks_in_y - 1) * self.block_size + self.rety
