@@ -1,5 +1,6 @@
 import pygame
 import random
+from options import options
 
 from pygame import mixer
 
