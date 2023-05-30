@@ -16,16 +16,12 @@ def start_snake(window):
     bound_width = 1000
     bound_height = 700
 
-    retx = int((width - bound_width) / 2)
-    rety = int((height - bound_height) / 2)
-
-    play_area = pygame.display.set_mode((retx, rety))
     window = pygame.display.set_mode((width, height))
     pygame.display.set_caption("Snake")
 
     block_size = 20
-    snake = Snake(block_size, play_area, retx, rety)
-    food = Food(block_size, play_area, retx, rety)
+    snake = Snake(block_size, window)
+    food = Food(block_size, window)
     font = pygame.font.SysFont('comicsans', 60, True)
     high_score = 0
     run = True
@@ -59,7 +55,7 @@ def start_snake(window):
             window.blit(text, (width / 2, height / 2))
             pygame.display.update()
             pygame.time.delay(1000)
-            snake.respawn(retx, rety)
+            snake.respawn(100, 100)
             food.respawn()
         snake.move()
         snake.check_for_food(food)
@@ -67,10 +63,9 @@ def start_snake(window):
         score_text = score_font.render(f"Snake Length: {snake.length - 3} High Score: {high_score}", True,
                                        (255, 255, 255))
         window.fill((0, 0, 0))
-        pygame.draw.rect(window, (0, 255, 0), (retx, rety, bound_width, bound_height))
-        window.blit(score_text, (width / 2 - 400, 0))
-        snake.draw(pygame, play_area)
-        food.draw(pygame, play_area)
+        window.blit(score_text, (width / 2 - 480, 0))
+        snake.draw(pygame, window)
+        food.draw(pygame, window)
         pygame.display.update()
 
 
@@ -84,20 +79,17 @@ class Direction(Enum):
 class Snake:
     mixer.init()
     apple_sound = pygame.mixer.Sound('res/apple_sound.mp3')
-    retx = 0
-    rety = 0
     length = None
     direction = None
     body = None
     block_size = None
     color = (0, 0, 255)
     bounds = None
-    starting_point = (100, 100)
 
-    def __init__(self, block_size, play_area, retx, rety):
+    def __init__(self, block_size, play_area):
         self.block_size = block_size
-        self.bounds = play_area
-        self.respawn(retx, rety)
+        self.bounds = play_area.get_size()
+        self.respawn(100, 100)
 
     def respawn(self, start_x, start_y):
         self.length = 3
@@ -106,8 +98,22 @@ class Snake:
         self.direction = Direction.DOWN
 
     def draw(self, game, play_area):
-        for segment in self.body:
-            game.draw.rect(play_area, self.color, (segment[0], segment[1], self.block_size, self.block_size))
+
+        head_image = pygame.image.load(
+            'res/Potato.webp')  # Replace 'path_to_head_image.png' with the actual image file path for the head
+        segment_image = pygame.image.load(
+            'res/Potato.webp')  # Replace 'path_to_segment_image.png' with the actual image file path for the segments
+
+        # Scale the images to the desired size
+        scaled_head_image = pygame.transform.scale(head_image, (self.block_size, self.block_size))
+        scaled_segment_image = pygame.transform.scale(segment_image, (self.block_size, self.block_size))
+
+        # Draw the head image
+        play_area.blit(scaled_head_image, (self.body[0][0], self.body[0][1]))
+
+        # Draw the segment images
+        for segment in self.body[1:]:
+            play_area.blit(scaled_segment_image, (segment[0], segment[1]))
 
     def steer(self, direction):
         if self.direction == Direction.DOWN and direction != Direction.UP:
@@ -157,37 +163,39 @@ class Snake:
 
     def check_bounds(self):
         head = self.body[-1]
-        if head[0] >= self.bounds[0] - self.block_size:
+        if head[0] >= self.bounds[0]:
             return True
-        if head[1] >= self.rety + self.bounds[1] - self.block_size:
+        if head[1] >= self.bounds[1]:
             return True
-        if head[0] < self.retx:
+
+        if head[0] < 0:
             return True
-        if head[1] < self.rety:
+        if head[1] < 0:
             return True
+
         return False
 
 
 class Food:
     block_size = None
     color = (255, 0, 0)
-    x = 0
-    y = 0
+    x = 100
+    y = 100
     bounds = None
-    retx = 0
-    rety = 0
 
-    def __init__(self, block_size, play_area, retx, rety):
+    def __init__(self, block_size, window):
         self.block_size = block_size
-        self.bounds = play_area.get_size()
-        self.rety = rety
-        self.retx = retx
+        self.bounds = window.get_size()
 
-    def draw(self, game, play_area):
-        game.draw.rect(play_area, self.color, (self.x, self.y, self.block_size, self.block_size))
+    def draw(self, game, window):
+        image = pygame.image.load('res/Potato.webp')  # Replace 'path_to_your_image.png' with the actual image file path
+        # Scale the image to the desired size
+        scaled_image = pygame.transform.scale(image, (self.block_size, self.block_size))
+        # Draw the image on the window at the specified position
+        window.blit(scaled_image, (self.x, self.y))
 
     def respawn(self):
-        blocks_in_x = (self.bounds[0] - self.retx - self.block_size) // self.block_size
-        blocks_in_y = (self.bounds[1] - self.rety - self.block_size) // self.block_size
-        self.x = random.randint(0, blocks_in_x - 1) * self.block_size + self.retx
-        self.y = random.randint(0, blocks_in_y - 1) * self.block_size + self.rety
+        blocks_in_x = (self.bounds[0]) // self.block_size
+        blocks_in_y = (self.bounds[1]) // self.block_size
+        self.x = random.randint(0, blocks_in_x - 1) * self.block_size
+        self.y = random.randint(0, blocks_in_y - 1) * self.block_size
