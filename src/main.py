@@ -3,7 +3,6 @@ from pygame import mixer
 
 from Button import Button
 from game import play as play_game
-
 pygame.init()
 # This is the screen width and height of window
 SCREEN_WIDTH = 1280
@@ -20,12 +19,7 @@ BG = pygame.image.load("res/BG.png")
 # modular ability to change the size of the font
 def get_font(size):
     return pygame.font.Font("res/fonts/chary___.ttf", size)
-
-
 vol = .7
-
-
-
 
 # options menu TBD
 def options(vol):
@@ -42,11 +36,11 @@ def options(vol):
         # back button
         OPTIONS_BACK = Button(image=None, pos=(640, 460),
                               text_input="BACK", font=get_font(75), base_color="Black", hovering_color="Green")
-        VOLUME = Button(image=None, pos=(640, 560),
-                        text_input="VOLUME", font=get_font(75), base_color="Black", hovering_color="Black")
-        VOLUME_UP = Button(image=None, pos=(760, 550),
-                           text_input="+", font=get_font(75), base_color="Black", hovering_color="Green")
-        VOLUME_DOWN = Button(image=None, pos=(500, 550),
+        VOLUME = Button(image=None, pos=(640,560),
+                             text_input="VOLUME", font=get_font(75), base_color="Black", hovering_color="Black")
+        VOLUME_UP = Button(image=None, pos=(760,550),
+                             text_input="+", font=get_font(75), base_color="Black", hovering_color="Green")
+        VOLUME_DOWN = Button(image=None, pos=(500,550),
                              text_input="-", font=get_font(75), base_color="Black", hovering_color="Green")
 
         # changing colors on hover
@@ -72,10 +66,13 @@ def options(vol):
                     vol -= .1
                     mixer.music.set_volume(vol)
 
+
         pygame.display.update()
 
 
-def main_menu(vol=.7):
+
+
+def main_menu(vol = .7):
     increase = True
     mixer.init()
     mixer.music.load("res/menu_music.mp3")
@@ -124,7 +121,6 @@ def main_menu(vol=.7):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if PLAY_BUTTON.checkForInput(mouse_pos):
                     play_game(window)
-
                 if OPTIONS_BUTTON.checkForInput(mouse_pos):
                     vol = options(vol)
                 if QUIT_BUTTON.checkForInput(mouse_pos):
@@ -141,11 +137,9 @@ def main_menu(vol=.7):
 
         pygame.display.update()
 
-
 def start_options():
     from options import options
     options(window, True)
-
 
 # main menu call
 main_menu()
