@@ -30,7 +30,7 @@ def options(vol):
         window.fill("white")
         # text rendering
         OPTIONS_TEXT = get_font(45).render("This is the OPTIONS screen.", True, "Black")
-        OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(640, 260))
+        OPTIONS_RECT = OPTIONS_TEXT.get_rect(cxenter=(640, 260))
         window.blit(OPTIONS_TEXT, OPTIONS_RECT)
 
         # back button
