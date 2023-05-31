@@ -42,19 +42,19 @@ def start_snake(window):
                             print()
 
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT]:
+        if keys[pygame.K_a]:
             snake.steer(Direction.LEFT)
-        elif keys[pygame.K_RIGHT]:
+        elif keys[pygame.K_d]:
             snake.steer(Direction.RIGHT)
-        elif keys[pygame.K_UP]:
+        elif keys[pygame.K_w]:
             snake.steer(Direction.UP)
-        elif keys[pygame.K_DOWN]:
+        elif keys[pygame.K_s]:
             snake.steer(Direction.DOWN)
 
         if snake.check_bounds() or snake.check_tail_collision():
             death_sound.play()
             text = font.render('Game Over', True, (255, 255, 255))
-            window.blit(text, (width / 2, height / 2))
+            window.blit(text, (width / 2 - 100, height / 2))
             pygame.display.update()
             pygame.time.delay(1000)
             snake.respawn(100, 100)
@@ -102,17 +102,17 @@ class Snake:
     def draw(self, game, play_area):
 
         head_image = pygame.image.load(
-            'res/Potato.webp')  # Replace 'path_to_head_image.png' with the actual image file path for the head
+            'res/stu.png')  # Replace 'path_to_head_image.png' with the actual image file path for the head
         segment_image = pygame.image.load(
-            'res/Potato.webp')  # Replace 'path_to_segment_image.png' with the actual image file path for the segments
+            'res/potato.png')  # Replace 'path_to_segment_image.png' with the actual image file path for the segments
 
         # Scale the images to the desired size
         scaled_head_image = pygame.transform.scale(head_image, (self.block_size, self.block_size))
         scaled_segment_image = pygame.transform.scale(segment_image, (self.block_size, self.block_size))
 
         # Draw the head image
-        play_area.blit(scaled_head_image, (self.body[0][0], self.body[0][1]))
 
+        play_area.blit(scaled_head_image, (self.body[0][0], self.body[0][1]))
         # Draw the segment images
         for segment in self.body[1:]:
             play_area.blit(scaled_segment_image, (segment[0], segment[1]))
@@ -181,8 +181,8 @@ class Snake:
 class Food:
     block_size = None
     color = (255, 0, 0)
-    x = 100
-    y = 100
+    x = 300
+    y = 200
     bounds = None
 
     def __init__(self, block_size, window):
@@ -190,7 +190,7 @@ class Food:
         self.bounds = window.get_size()
 
     def draw(self, game, window):
-        image = pygame.image.load('res/Potato.webp')  # Replace 'path_to_your_image.png' with the actual image file path
+        image = pygame.image.load('res/potato.png')  # Replace 'path_to_your_image.png' with the actual image file path
         # Scale the image to the desired size
         scaled_image = pygame.transform.scale(image, (self.block_size, self.block_size))
         # Draw the image on the window at the specified position
