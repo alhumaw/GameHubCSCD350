@@ -42,13 +42,13 @@ def start_snake(window):
                             print()
 
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT]:
+        if keys[pygame.K_a]:
             snake.steer(Direction.LEFT)
-        elif keys[pygame.K_RIGHT]:
+        elif keys[pygame.K_d]:
             snake.steer(Direction.RIGHT)
-        elif keys[pygame.K_UP]:
+        elif keys[pygame.K_w]:
             snake.steer(Direction.UP)
-        elif keys[pygame.K_DOWN]:
+        elif keys[pygame.K_s]:
             snake.steer(Direction.DOWN)
 
         if snake.check_bounds() or snake.check_tail_collision():
