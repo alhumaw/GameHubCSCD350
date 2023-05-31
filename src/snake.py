@@ -21,8 +21,8 @@ def start_snake(window):
 
     block_size = 20
 
-    snake = Snake(block_size, play_area, retx, rety)
-    food = Food(block_size, play_area, retx, rety)
+    snake = Snake(block_size, window)
+    food = Food(block_size, window)
     font = pygame.font.SysFont('res/fonts/chary___.ttf', 60, True)
 
     high_score = 0
