@@ -1,145 +1,245 @@
-import pygame, sys
+import pygame
+import sys
+import random
+from options import options
 from pygame import mixer
-
-from Button import Button
-from game import play as play_game
-pygame.init()
-# This is the screen width and height of window
-SCREEN_WIDTH = 1280
-SCREEN_HEIGHT = 720
-
-window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-# The caption for the window
-pygame.display.set_caption("Menu")
-
-# Background image
-BG = pygame.image.load("res/BG.png")
-
-
-# modular ability to change the size of the font
-def get_font(size):
-    return pygame.font.Font("res/fonts/chary___.ttf", size)
-vol = .7
-
-# options menu TBD
-def options(vol):
-    while True:
-        # constantly record the mouse position
-        OPTIONS_MOUSE_POS = pygame.mouse.get_pos()
-        # white overlay
-        window.fill("white")
-        # text rendering
-        OPTIONS_TEXT = get_font(45).render("This is the OPTIONS screen.", True, "Black")
-        OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(640, 260))
-        window.blit(OPTIONS_TEXT, OPTIONS_RECT)
-
-        # back button
-        OPTIONS_BACK = Button(image=None, pos=(640, 460),
-                              text_input="BACK", font=get_font(75), base_color="Black", hovering_color="Green")
-        VOLUME = Button(image=None, pos=(640,560),
-                             text_input="VOLUME", font=get_font(75), base_color="Black", hovering_color="Black")
-        VOLUME_UP = Button(image=None, pos=(760,550),
-                             text_input="+", font=get_font(75), base_color="Black", hovering_color="Green")
-        VOLUME_DOWN = Button(image=None, pos=(500,550),
-                             text_input="-", font=get_font(75), base_color="Black", hovering_color="Green")
-
-        # changing colors on hover
-        OPTIONS_BACK.changeColor(OPTIONS_MOUSE_POS)
-        OPTIONS_BACK.update(window)
-        VOLUME.changeColor(OPTIONS_MOUSE_POS)
-        VOLUME.update(window)
-        VOLUME_UP.changeColor(OPTIONS_MOUSE_POS)
-        VOLUME_UP.update(window)
-        VOLUME_DOWN.changeColor(OPTIONS_MOUSE_POS)
-        VOLUME_DOWN.update(window)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if OPTIONS_BACK.checkForInput(OPTIONS_MOUSE_POS):
-                    return vol
-                if VOLUME_UP.checkForInput(OPTIONS_MOUSE_POS):
-                    vol += .1
-                    mixer.music.set_volume(vol)
-                if VOLUME_DOWN.checkForInput(OPTIONS_MOUSE_POS):
-                    vol -= .1
-                    mixer.music.set_volume(vol)
-
-
-        pygame.display.update()
+from options import options
+import assets
 
 
 
 
-def main_menu(vol = .7):
-    increase = True
+def start_tictactoe(window):
+    pygame.init()
     mixer.init()
-    mixer.music.load("res/menu_music.mp3")
-    mixer.music.set_volume(vol)
-    mixer.music.play()
-    menu_x = -400
-    pygame.display.set_caption("Menu")
-    play_pos = 250
+    width = 1280
+    height = 720
+
+    bound_width = 1000
+    bound_height = 700
+
+    retx = int((width - bound_width) / 2)
+    rety = int((height - bound_height) / 2)
+    pygame.init()
+
+    SCREEN = pygame.display.set_mode((width, height))
+    pygame.display.set_caption("Tic Tac Toe!")
+
+    BOARD = pygame.image.load("res/Board.png")
+    X_IMG = pygame.image.load("res/X.png")
+    O_IMG = pygame.image.load("res/O.png")
+
+    BG_COLOR = (214, 201, 227)
+
+    board = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+    graphical_board = [[[None, None], [None, None], [None, None]],
+                   [[None, None], [None, None], [None, None]],
+                   [[None, None], [None, None], [None, None]]]
+
+    to_move = 'X'
+
+    SCREEN.fill(BG_COLOR)
+    SCREEN.blit(BOARD, (64, 64))
+
+    pygame.display.update()
+
     while True:
-        # draw the screen with the requested background at this position(0,0)
-        window.blit(BG, (0, 0))
-        menu_x += 4
-        # record mouse position on each update
-        mouse_pos = pygame.mouse.get_pos()
-        # render text
-        if menu_x <= SCREEN_WIDTH - 800:
-            menu_x = menu_x
-        if menu_x >= SCREEN_WIDTH:
-            menu_x = -menu_x
-        MENU_TEXT = get_font(100).render("ARCADE ADVENTURE", True, "#fbfbfb")
-        MENU_RECT = MENU_TEXT.get_rect(center=(menu_x + 640, 100))
-        # buttons, add this background, at the position, with this text, this font size, with this color, and when I hover use this color
-        PLAY_BUTTON = Button(image=pygame.image.load("res/Play Rect.png"), pos=(640, play_pos),
-                             text_input="PLAY", font=get_font(100), base_color="#48ea02", hovering_color="White")
-
-        OPTIONS_BUTTON = Button(image=pygame.image.load("res/Play Rect.png"), pos=(640, 400),
-                                text_input="OPTIONS", font=get_font(100), base_color="#48ea02", hovering_color="White")
-
-        QUIT_BUTTON = Button(image=pygame.image.load("res/Play Rect.png"), pos=(640, 550),
-                             text_input="QUIT", font=get_font(100), base_color="#48ea02", hovering_color="White")
-
-        # draw our main menu text
-        window.blit(MENU_TEXT, MENU_RECT)
-
-        # constantly update the state for hovering on the buttons
-        for button in [PLAY_BUTTON, OPTIONS_BUTTON, QUIT_BUTTON]:
-            button.changeColor(mouse_pos)
-            button.update(window)
-
-        # this is just constantly checking for inputs on each update, waiting for a response to do something
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if PLAY_BUTTON.checkForInput(mouse_pos):
-                    play_game(window)
-                if OPTIONS_BUTTON.checkForInput(mouse_pos):
-                    vol = options(vol)
-                if QUIT_BUTTON.checkForInput(mouse_pos):
-                    pygame.quit()
-                    sys.exit()
-        if increase:
-            play_pos += .1
-            if play_pos > 280:
-                increase = False
+                board, to_move = add_XO(board, graphical_board, to_move)
+                game_finished = False
+                if game_finished:
+                    board = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+                    graphical_board = [[[None, None], [None, None], [None, None]],
+                                       [[None, None], [None, None], [None, None]],
+                                       [[None, None], [None, None], [None, None]]]
+
+                    to_move = 'X'
+
+                    SCREEN.fill(BG_COLOR)
+                    SCREEN.blit(BOARD, (64, 64))
+
+                    #game_finished = False
+
+                    pygame.display.update()
+
+                if check_win(board) is not None:
+                    game_finished = True
+                pygame.display.update()
+                # Set the desired FPS
+                #clock.tick(60)
+width = 600#1280
+height = 600#720
+X_IMG = pygame.image.load("res/X.png")
+O_IMG = pygame.image.load("res/O.png")
+
+SCREEN = pygame.display.set_mode((width, height))
+
+BG_COLOR = (214, 201, 227)
+
+board = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+graphical_board = [[[None, None], [None, None], [None, None]],
+                   [[None, None], [None, None], [None, None]],
+                   [[None, None], [None, None], [None, None]]]
+
+to_move = 'X'
+
+#NEW CODE
+def draw_game_board(window, game_board):
+    # Define the dimensions and positions of the game board cells
+    cell_width = 200
+    cell_height = 200
+    cell_margin = 10
+
+    # Clear the window
+    window.fill((255, 255, 255))
+
+    # Iterate over the game board and draw the symbols in each cell
+    for row in range(3):
+        for col in range(3):
+            x = col * (cell_width + cell_margin)
+            y = row * (cell_height + cell_margin)
+
+            cell_rect = pygame.Rect(x, y, cell_width, cell_height)
+            pygame.draw.rect(window, (0, 0, 0), cell_rect)
+
+            symbol = game_board[row][col]
+            if symbol is not None:
+                symbol_text = get_font(150).render(symbol, True, (0, 0, 0))
+                symbol_rect = symbol_text.get_rect(center=cell_rect.center)
+                window.blit(symbol_text, symbol_rect)
+
+    pygame.display.update()
+
+def check_winner(game_board):
+    # Check rows
+    for row in range(3):
+        if game_board[row][0] == game_board[row][1] == game_board[row][2] is not None:
+            return game_board[row][0]
+
+    # Check columns
+    for col in range(3):
+        if game_board[0][col] == game_board[1][col] == game_board[2][col] is not None:
+            return game_board[0][col]
+
+    # Check diagonals
+    if game_board[0][0] == game_board[1][1] == game_board[2][2] is not None:
+        return game_board[0][0]
+    if game_board[0][2] == game_board[1][1] == game_board[2][0] is not None:
+        return game_board[0][2]
+
+    # No winner
+    return None
+
+def is_board_full(game_board):
+    # Check if the game board is full (no empty cells)
+    for row in range(3):
+        for col in range(3):
+            if game_board[row][col] is None:
+                return False
+    return True
+
+#NEW CODE
+
+
+
+
+def render_board(board, X_IMG, O_IMG):
+    global graphical_board
+    for i in range(3):
+        for j in range(3):
+            if board[i][j] == 'X':
+                #Create an X image and rect
+                graphical_board[i][j][0] = X_IMG
+                graphical_board[i][j][1] = X_IMG.get_rect(center=(j*300+150, i*300+150))
+            elif board[i][j] == 'O':
+                # Create a Y image and rect
+                graphical_board[i][j][0] = O_IMG
+                graphical_board[i][j][1] = O_IMG.get_rect(center=(j * 300 + 150, i * 300 + 150))
+def add_XO(board, graphical_board, to_move):
+    current_pos = pygame.mouse.get_pos() #returns tuple/coordinates of mouse(x=100,y=200,(100,200))
+    converted_x = (current_pos[0]-65)/835*2
+    converted_y = current_pos[1] / 835 * 2
+    if board[round(converted_y)][round(converted_x)] !='O' and board[round(converted_y)][round(converted_x)] !='X':
+        board[round(converted_y)][round(converted_x)] = to_move
+        if to_move == 'O':
+            to_move = 'X'
         else:
-            play_pos -= .1
-            if play_pos < 250:
-                increase = True
+            to_move = 'O'
+    render_board(board, X_IMG, O_IMG)
 
+    for i in range(3):
+        for j in range(3):
+            if graphical_board[i][j][0] is not None:
+                SCREEN.blit(graphical_board[i][j][0], graphical_board[i][j][1])
+    return board, to_move
+
+
+game_finished = False
+
+
+def check_win(board):
+    winner = None
+    for row in range(0, 3):
+        if ((board[row][0] == board[row][1] == board[row][2]) and (board[row][0] is not None)):
+            winner = board[row][0]
+            for i in range(0, 3):
+                graphical_board[row][i][0] = pygame.image.load(f"res/Winning {winner}.png")
+                SCREEN.blit(graphical_board[row][i][0], graphical_board[row][i][1])
+            pygame.display.update()
+            return winner
+
+    for col in range(0, 3):
+        if ((board[0][col] == board[1][col] == board[2][col]) and (board[0][col] is not None)):
+            winner = board[0][col]
+            for i in range(0, 3):
+                graphical_board[i][col][0] = pygame.image.load(f"res/Winning {winner}.png")
+                SCREEN.blit(graphical_board[i][col][0], graphical_board[i][col][1])
+            pygame.display.update()
+            return winner
+
+    if (board[0][0] == board[1][1] == board[2][2]) and (board[0][0] is not None):
+        winner = board[0][0]
+        graphical_board[0][0][0] = pygame.image.load(f"res/Winning {winner}.png")
+        SCREEN.blit(graphical_board[0][0][0], graphical_board[0][0][1])
+        graphical_board[1][1][0] = pygame.image.load(f"res/Winning {winner}.png")
+        SCREEN.blit(graphical_board[1][1][0], graphical_board[1][1][1])
+        graphical_board[2][2][0] = pygame.image.load(f"res/Winning {winner}.png")
+        SCREEN.blit(graphical_board[2][2][0], graphical_board[2][2][1])
         pygame.display.update()
+        return winner
 
-def start_options():
-    from options import options
-    options(window, True)
+    if (board[0][2] == board[1][1] == board[2][0]) and (board[0][2] is not None):
+        winner = board[0][2]
+        graphical_board[0][2][0] = pygame.image.load(f"res/Winning {winner}.png")
+        SCREEN.blit(graphical_board[0][2][0], graphical_board[0][2][1])
+        graphical_board[1][1][0] = pygame.image.load(f"res/Winning {winner}.png")
+        SCREEN.blit(graphical_board[1][1][0], graphical_board[1][1][1])
+        graphical_board[2][0][0] = pygame.image.load(f"res/Winning {winner}.png")
+        SCREEN.blit(graphical_board[2][0][0], graphical_board[2][0][1])
+        pygame.display.update()
+        return winner
 
-# main menu call
-main_menu()
+    if winner is None:
+        for i in range(len(board)):
+            for j in range(len(board)):
+                if board[i][j] != 'X' and board[i][j] != 'O':
+                    return None
+        return "DRAW"
+
+
+        # Create the game window
+        window = pygame.display.set_mode((1280, 720))
+        pygame.display.set_caption("Tic Tac Toe!")
+
+        # Call the start_tictactoe function to start the game
+        start_tictactoe(window)
+             
+  
+
+
+
+           
