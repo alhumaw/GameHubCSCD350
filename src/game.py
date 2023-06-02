@@ -74,6 +74,10 @@ def play(window):
                 if Game6B.checkForInput(PLAY_MOUSE_POS):
                     pygame.mixer.quit()
                     start_space_invaders(window)
+                #TIC TAC TOE MOUSE INPUT
+                if Game2B.checkForInput(PLAY_MOUSE_POS):
+                    pygame.mixer.quit()
+                    start_tictactoe(window)
 
         # constantly update the screen. this is the critical piece of creating a game loo[]
         pygame.display.update()
