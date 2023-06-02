@@ -50,7 +50,7 @@ def start_pong(window):
     yVelocity = 6
     p1Score = 0
     p2Score = 0
-    maxScore = 3
+    maxScore = 1
     red = 0
     green = 0
     blue = 0
@@ -153,30 +153,35 @@ def start_pong(window):
 
         if p1Score >= maxScore:
             text1 = winner.render(f"PLAYER 1 WINS.", True, (255, 255, 255))
-            set_score(str(p1Score), "pong")
-
-            window.blit(text1, (width/2 - 200, height/2 - 200))
+            text2 = winner.render(f"PRESS SPACE TO RESTART", True, (255, 255, 255))
+            window.blit(text2, (width / 2 - 350, height / 2 + 100))
+            window.blit(text1, (width / 2 - 200, height / 2))
             xVelocity = 0
             yVelocity = 0
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    p1Score = 0
-                    p2Score = 0
-                    xVelocity = 4
-                    yVelocity = 4
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        p1Score = 0
+                        p2Score = 0
+                        xVelocity = 4
+                        yVelocity = 4
+
 
         if p2Score >= maxScore:
             text1 = winner.render(f"PLAYER 2 WINS.", True, (255, 255, 255))
-
-            window.blit(text1, (width/2 - 200, height/2 - 200))
+            text2 = winner.render(f"PRESS SPACE TO RESTART", True, (255, 255, 255))
+            window.blit(text2, (width / 2 - 350, height / 2 + 100))
+            window.blit(text1, (width / 2 - 200, height / 2))
             xVelocity = 0
             yVelocity = 0
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    p1Score = 0
-                    p2Score = 0
-                    xVelocity = 4
-                    yVelocity = 4
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        p1Score = 0
+                        p2Score = 0
+                        xVelocity = 4
+                        yVelocity = 4
+
 
         if collide1:
             crash_sound.play()
