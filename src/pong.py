@@ -124,8 +124,8 @@ def start_pong(window):
             power.play()
             xVelocity *= 1.3
             yVelocity *= 1.3
-            powerX = random.randint(100, 400)
-            powerY = random.randint(100, 200)
+            powerX = random.randint(100, 1200)
+            powerY = random.randint(100, 600)
             power_rect = pygame.Rect(powerX, powerY, ffUp.get_width(), ffUp.get_height())
 
         if yVelocity > 0 and circleY <= 0 + circleR:
@@ -155,7 +155,7 @@ def start_pong(window):
             text1 = winner.render(f"PLAYER 1 WINS.", True, (255, 255, 255))
             set_score(str(p1Score), "pong")
 
-            window.blit(text1, (width/2, height/2))
+            window.blit(text1, (width/2 - 200, height/2 - 200))
             xVelocity = 0
             yVelocity = 0
             if event.type == pygame.KEYDOWN:
@@ -168,7 +168,7 @@ def start_pong(window):
         if p2Score >= maxScore:
             text1 = winner.render(f"PLAYER 2 WINS.", True, (255, 255, 255))
 
-            window.blit(text1, (width/2, height/2))
+            window.blit(text1, (width/2 - 200, height/2 - 200))
             xVelocity = 0
             yVelocity = 0
             if event.type == pygame.KEYDOWN:
