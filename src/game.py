@@ -1,4 +1,5 @@
 from pong import start_pong
+from duck import start_duck
 import pygame, sys
 from Button import Button
 
@@ -91,6 +92,10 @@ def play(window):
                 if Game1B.checkForInput(PLAY_MOUSE_POS):
                     pygame.mixer.quit()
                     start_pong(window)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if Game5B.checkForInput(PLAY_MOUSE_POS):
+                    pygame.mixer.quit()
+                    start_duck(window)
 
             if event.type == pygame.MOUSEMOTION:
                 mouse_x, mouse_y = event.pos
