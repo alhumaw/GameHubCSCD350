@@ -1,5 +1,6 @@
 import pygame
 import sys
+from options import options
 
 # Initialize pygame
 pygame.init()
@@ -12,8 +13,8 @@ BOARD_SIZE = 3
 SQUARE_SIZE = min(WIDTH // BOARD_SIZE, HEIGHT // BOARD_SIZE)
 
 # Colors
-BG_COLOR = (255, 255, 255)
-LINE_COLOR = (0, 0, 0)
+BG_COLOR = (0, 0, 0)
+LINE_COLOR = (255, 255, 255)
 X_COLOR = (255, 0, 0)
 O_COLOR = (0, 0, 255)
 
@@ -73,10 +74,10 @@ def check_win(board):
     return None
 
 
-def start_tictactoe():
+def start_tictactoe(window):
     # Create the game board
     board = [[None] * BOARD_SIZE for _ in range(BOARD_SIZE)]
-
+    pause = False
     # Current player
     current_player = "X"
 
@@ -86,6 +87,14 @@ def start_tictactoe():
 
     while not game_over:
         for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    print("Escape pressed")
+                    pause = not pause
+                    if pause:
+                        state = options(window, pause)
+                        if not state:
+                            print()
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
