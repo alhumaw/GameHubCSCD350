@@ -78,7 +78,7 @@ def play(window):
                     start_pong(window)
                 if Game2B.checkForInput(PLAY_MOUSE_POS):
                     pygame.mixer.quit()
-                    start_tictactoe()
+                    start_tictactoe(window)
                 if Game5B.checkForInput(PLAY_MOUSE_POS):
                     pygame.mixer.quit()
                     start_duck(window)
