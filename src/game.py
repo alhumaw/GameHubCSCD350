@@ -2,6 +2,7 @@ from pong import start_pong
 from duck import start_duck
 from snake import start_snake
 from spaceInvaders import start_space_invaders
+from tictactoe import start_tictactoe
 import pygame, sys
 from Button import Button
 
@@ -75,6 +76,9 @@ def play(window):
                 if Game1B.checkForInput(PLAY_MOUSE_POS):
                     pygame.mixer.quit()
                     start_pong(window)
+                if Game2B.checkForInput(PLAY_MOUSE_POS):
+                    pygame.mixer.quit()
+                    start_tictactoe()
                 if Game5B.checkForInput(PLAY_MOUSE_POS):
                     pygame.mixer.quit()
                     start_duck(window)
