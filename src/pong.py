@@ -3,9 +3,8 @@ import random
 from options import options
 
 from pygame import mixer
-
+from leaderboard import set_score
 from options import options
-
 
 
 def start_pong(window):
@@ -13,14 +12,16 @@ def start_pong(window):
     width = 1280
     height = 720
     pause = False
+    playing = True
     saved_x_velocity = 0
     saved_y_velocity = 0
     pygame.font.get_default_font()
-    ffUp = pygame.image.load("res/fastForward.png")
-    new_width, new_height = ffUp.get_width() * 1.6, ffUp.get_height() * 1.6
+    stu = pygame.image.load("res/stu.png")
+    ffUp = pygame.image.load("res/stu.png")
+    new_width, new_height = ffUp.get_width() - 1.6, ffUp.get_height() -1.6
     ffUp = pygame.transform.scale(ffUp, (new_width, new_height))
     crash_sound = pygame.mixer.Sound("res/blip.mp3")
-    power = pygame.mixer.Sound("res/powerup.mp3")
+    power = pygame.mixer.Sound("res/huh.mp3")
     power.set_volume(.3)
     rect1X = 15
     rect1Y = 240
@@ -40,7 +41,6 @@ def start_pong(window):
     p1Up = False
     p1Down = False
 
-
     clock = pygame.time.Clock()
 
     circleX = width / 2
@@ -50,7 +50,7 @@ def start_pong(window):
     yVelocity = 6
     p1Score = 0
     p2Score = 0
-    maxScore = 3
+    maxScore = 1
     red = 0
     green = 0
     blue = 0
@@ -106,7 +106,6 @@ def start_pong(window):
         if rect2Y >= height - rect2H:
             rect2Y = height - rect2H
 
-
         game_score = pygame.font.Font('res/fonts/chary___.ttf', 72)
         winner = pygame.font.Font('res/fonts/chary___.ttf', 72)
         text = game_score.render(f"PLAYER 1: {p1Score} | PLAYER 2: {p2Score}", True, (255, 255, 255))
@@ -119,15 +118,14 @@ def start_pong(window):
         collide2 = r2.colliderect(circleX - circleR, circleY - circleR, circleR * 2, circleR * 2)
         window.blit(ffUp, (powerX, powerY))
 
-        power_rect = pygame.Rect(powerX, powerY, new_width, new_height)
-
+        power_rect = pygame.Rect(powerX, powerY, ffUp.get_width(), ffUp.get_height())
 
         if power_rect.collidepoint(circleX + circleR / 2, circleY + circleR / 2):
             power.play()
             xVelocity *= 1.3
             yVelocity *= 1.3
-            powerX = random.randint(100, 400)
-            powerY = random.randint(100, 200)
+            powerX = random.randint(100, 1200)
+            powerY = random.randint(100, 600)
             power_rect = pygame.Rect(powerX, powerY, ffUp.get_width(), ffUp.get_height())
 
         if yVelocity > 0 and circleY <= 0 + circleR:
@@ -144,7 +142,6 @@ def start_pong(window):
             xVelocity = -xVelocity
             p2Score += 1
 
-
         if circleX >= 1280:
             circleX = width / 2
             circleY = height / 2
@@ -156,27 +153,35 @@ def start_pong(window):
 
         if p1Score >= maxScore:
             text1 = winner.render(f"PLAYER 1 WINS.", True, (255, 255, 255))
-            window.blit(text1, (200, 150))
+            text2 = winner.render(f"PRESS SPACE TO RESTART", True, (255, 255, 255))
+            window.blit(text2, (width / 2 - 350, height / 2 + 100))
+            window.blit(text1, (width / 2 - 200, height / 2))
             xVelocity = 0
             yVelocity = 0
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    p1Score = 0
-                    p2Score = 0
-                    xVelocity = 4
-                    yVelocity = 4
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        p1Score = 0
+                        p2Score = 0
+                        xVelocity = 4
+                        yVelocity = 4
+
 
         if p2Score >= maxScore:
             text1 = winner.render(f"PLAYER 2 WINS.", True, (255, 255, 255))
-            window.blit(text1, (200, 150))
+            text2 = winner.render(f"PRESS SPACE TO RESTART", True, (255, 255, 255))
+            window.blit(text2, (width / 2 - 350, height / 2 + 100))
+            window.blit(text1, (width / 2 - 200, height / 2))
             xVelocity = 0
             yVelocity = 0
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    p1Score = 0
-                    p2Score = 0
-                    xVelocity = 4
-                    yVelocity = 4
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        p1Score = 0
+                        p2Score = 0
+                        xVelocity = 4
+                        yVelocity = 4
+
 
         if collide1:
             crash_sound.play()
@@ -202,3 +207,4 @@ def start_pong(window):
         pygame.display.flip()
 
         clock.tick(60)
+

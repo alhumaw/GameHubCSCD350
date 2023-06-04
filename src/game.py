@@ -1,5 +1,7 @@
 from pong import start_pong
 from duck import start_duck
+from snake import start_snake
+from spaceInvaders import start_space_invaders
 import pygame, sys
 from Button import Button
 
@@ -92,15 +94,19 @@ def play(window):
                 if Game1B.checkForInput(PLAY_MOUSE_POS):
                     pygame.mixer.quit()
                     start_pong(window)
-            if event.type == pygame.MOUSEBUTTONDOWN:
                 if Game5B.checkForInput(PLAY_MOUSE_POS):
                     pygame.mixer.quit()
                     start_duck(window)
-
-            if event.type == pygame.MOUSEMOTION:
-                mouse_x, mouse_y = event.pos
-                if image_x <= mouse_x <= image_x + image1.get_width() and image_y <= mouse_y <= image_y + image1.get_height():
-                    window.blit(test1, (gif_x, gif_y))
+                if Game4B.checkForInput(PLAY_MOUSE_POS):
+                    pygame.mixer.quit()
+                    start_snake(window)
+                if Game6B.checkForInput(PLAY_MOUSE_POS):
+                    pygame.mixer.quit()
+                    start_space_invaders(window)
+                #TIC TAC TOE MOUSE INPUT
+                if Game2B.checkForInput(PLAY_MOUSE_POS):
+                    pygame.mixer.quit()
+                    start_tictactoe(window)
 
         # constantly update the screen. this is the critical piece of creating a game loo[]
         pygame.display.update()
