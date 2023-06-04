@@ -4,6 +4,7 @@ import sys
 # Initialize pygame
 pygame.init()
 
+
 # Constants
 WIDTH, HEIGHT = 1280, 720
 LINE_WIDTH = 15

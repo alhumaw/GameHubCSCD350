@@ -6,6 +6,7 @@ from tictactoe import start_tictactoe
 import pygame, sys
 from Button import Button
 
+
 pygame.mixer.init()
 # modular ability to change the size of the font
 def get_font(size):

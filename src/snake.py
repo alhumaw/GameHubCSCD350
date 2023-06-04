@@ -195,6 +195,7 @@ class Food:
     y = 200
     bounds = None
 
+
     def __init__(self, block_size, window):
         self.block_size = block_size
         self.bounds = window.get_size()
