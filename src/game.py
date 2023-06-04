@@ -35,7 +35,7 @@ def play(window):
                         text_input="Snake", font=get_font(50), base_color="White", hovering_color="Green")
 
         Game5B = Button(image=None, pos=(620, 650),
-                        text_input="Tower Defence", font=get_font(50), base_color="White", hovering_color="Green")
+                        text_input="Duck Hunt", font=get_font(50), base_color="White", hovering_color="Green")
 
         Game6B = Button(image=None, pos=(990, 650),
                         text_input="Space Inv", font=get_font(50), base_color="White", hovering_color="Green")
@@ -59,29 +59,10 @@ def play(window):
         Game6B.changeColor(PLAY_MOUSE_POS)
         Game6B.update(window)
 
-        image1 = pygame.image.load("res/pongimg.jpg")
-        test1 = pygame.image.load("res/test3.gif")
-        TicTac = pygame.image.load("res/TicTacImg.jpg")
-        Doom = pygame.image.load("res/DoomImg.jpg")
+
 
         #images above buttons
         #window.blit(image1, (50,50))
-        window.blit(TicTac, (535, 100))
-        window.blit(Doom, (800, 200))
-
-        #attempt at gif
-
-        image_surface = pygame.Surface((image1.get_width(), image1.get_height()))
-        image_surface.blit(image1, (0, 0))
-
-        image_x = 155
-        image_y = 140
-
-        gif_x = image_x
-        gif_y = image_y
-
-
-        window.blit(image_surface, (image_x, image_y))
 
 
         for event in pygame.event.get():
@@ -103,10 +84,6 @@ def play(window):
                 if Game6B.checkForInput(PLAY_MOUSE_POS):
                     pygame.mixer.quit()
                     start_space_invaders(window)
-                #TIC TAC TOE MOUSE INPUT
-                if Game2B.checkForInput(PLAY_MOUSE_POS):
-                    pygame.mixer.quit()
-                    start_tictactoe(window)
 
         # constantly update the screen. this is the critical piece of creating a game loo[]
         pygame.display.update()
