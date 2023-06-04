@@ -21,7 +21,6 @@ BG = pygame.image.load("res/BG.png")
 def get_font(size):
     return pygame.font.Font("res/fonts/chary___.ttf", size)
 
-
 vol = .7
 
 
