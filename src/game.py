@@ -1,4 +1,5 @@
 from pong import start_pong
+from duck import start_duck
 from snake import start_snake
 from spaceInvaders import start_space_invaders
 import pygame, sys
@@ -10,7 +11,6 @@ pygame.mixer.init()
 def get_font(size):
     return pygame.font.Font("res/fonts/chary___.ttf", size)
 
-# when play button is clicked
 def play(window):
     while True:
         # constantly obtain position of the mouse cursor
@@ -58,6 +58,32 @@ def play(window):
 
         Game6B.changeColor(PLAY_MOUSE_POS)
         Game6B.update(window)
+
+        image1 = pygame.image.load("res/pongimg.jpg")
+        test1 = pygame.image.load("res/test3.gif")
+        TicTac = pygame.image.load("res/TicTacImg.jpg")
+        Doom = pygame.image.load("res/DoomImg.jpg")
+
+        #images above buttons
+        #window.blit(image1, (50,50))
+        window.blit(TicTac, (535, 100))
+        window.blit(Doom, (800, 200))
+
+        #attempt at gif
+
+        image_surface = pygame.Surface((image1.get_width(), image1.get_height()))
+        image_surface.blit(image1, (0, 0))
+
+        image_x = 155
+        image_y = 140
+
+        gif_x = image_x
+        gif_y = image_y
+
+
+        window.blit(image_surface, (image_x, image_y))
+
+
         for event in pygame.event.get():
             # if you press the "X" button, the game will exit
             if event.type == pygame.QUIT:
@@ -68,6 +94,9 @@ def play(window):
                 if Game1B.checkForInput(PLAY_MOUSE_POS):
                     pygame.mixer.quit()
                     start_pong(window)
+                if Game5B.checkForInput(PLAY_MOUSE_POS):
+                    pygame.mixer.quit()
+                    start_duck(window)
                 if Game4B.checkForInput(PLAY_MOUSE_POS):
                     pygame.mixer.quit()
                     start_snake(window)
