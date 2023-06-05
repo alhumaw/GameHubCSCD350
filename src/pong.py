@@ -50,7 +50,7 @@ def start_pong(window):
     yVelocity = 6
     p1Score = 0
     p2Score = 0
-    maxScore = 1
+    maxScore = 3
     red = 0
     green = 0
     blue = 0
